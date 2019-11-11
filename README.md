@@ -31,7 +31,7 @@ Commit the two ARM Template files into an Azure DevOps Repo.
 
 Create a new empty Azure DevOps Release that deploys from the Repo configured in the previous stage. On Artifacts, disable the ‘Continuous Deployment’ and ‘Pull Request’ triggers as we only want the Release to be triggered when called when Flow calls the REST API.
 
-![Pipeline]
+![Release]
 
 Add the following task to the first Stage – ‘Azure Deployment’. This task enables you to retrieve and deploy an ARM Template from your Repo. You may need to add a [Service Connection][ServiceConnection] to authenticate with your Azure subscription.
 
@@ -54,11 +54,13 @@ New that you have a DevOps Pipeline setup you’ll need to generate a PAT (Perso
 From the Power Apps portal select ‘Import package’ then browse to the export ZIP file. This will import the ‘Azure VM Requester’ Power App as a new canvas app.
 
 ![Import]
+
 ![ImportApp]
 
 Next create a new Entity Data source to store the data associated with the Azure VM request. This is the data source that Flow is using as a trigger when a new record is created.
 
 ![Entities]
+
 ![newEntity]
 
 Create the following custom fields.
