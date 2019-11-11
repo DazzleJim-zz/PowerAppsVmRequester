@@ -145,6 +145,7 @@ To test the [DevOps Pipeline Release REST API][DevOpsRestApi] you can use a free
 [Fields]: documentation/fields.png
 [CanvasApp]: documentation/canvasApp.png
 [Record]: documentation/record.png
+[Flow]: documentation/flow.png
 [FlowTrigger]: documentation/flowTrigger.png
 [FlowRecord]: documentation/flowRecord.png
 [FlowO365]: documentation/flowO365.png
