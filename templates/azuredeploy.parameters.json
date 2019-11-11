@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "0000"
+    },
+    "adminPassword": {
+      "value": "0000"
+    },
+    "vmSize": {
+      "value": "0000"
+    },
+    "vmName": {
+      "value": "0000"
+    },
+    "imagePublisher": {
+      "value": "0000"
+    },
+    "imageOffer": {
+      "value": "0000"
+    },  
+    "imageSku": {
+      "value": "0000"
+    },
+    "osType": {
+      "value": "0000"
+    },
+    "tagOwner": {
+      "value": "0000"
+    },
+    "tagCostCenter": {
+      "value": "0000"
+    }                    
+  }
+}

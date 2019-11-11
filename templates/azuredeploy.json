@@ -1,0 +1,140 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "vmName": {
+      "type": "string"
+    },
+    "imagePublisher": {
+      "type": "string"
+    },
+    "imageOffer": {
+      "type": "string"
+    },
+    "imageSku": {
+      "type": "string"
+    },        
+    "osType": {
+      "type": "string"
+    },        
+    "tagOwner": {
+      "type": "string"
+    },
+    "tagCostCenter": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "existingVirtualNetworkResourceGroup": "<Resource group containing existing vNet>",
+    "existingVirtualNetworkName": "<Name of existing vNet>",
+    "existingSubnetName": "<Name of existing subnet>",
+    "VmNicName": "[concat(parameters('vmName'), '_Nic')]",
+    "VmPublicIPAddressName": "[concat(parameters('vmName'), '_Ip')]",
+    "SubnetID": "[concat('/subscriptions/<Azure subscription ID>/resourceGroups/', variables('existingVirtualNetworkResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', variables('existingVirtualNetworkName'), '/subnets/', variables('ExistingSubnetName'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('VmPublicIPAddressName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Owner": "[parameters('tagOwner')]",
+        "CostCenter": "[parameters('tagCostCenter')]"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('VmNicName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Owner": "[parameters('tagOwner')]",
+        "CostCenter": "[parameters('tagCostCenter')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses/', variables('VmPublicIPAddressName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('VmPublicIPAddressName'))]"
+              },
+              "subnet": {
+                "id": "[variables('SubnetID')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2016-04-30-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('vmName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Owner": "[parameters('tagOwner')]",
+        "CostCenter": "[parameters('tagCostCenter')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('VmNicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('imagePublisher')]",
+            "offer": "[parameters('imageOffer')]",
+            "sku": "[parameters('imageSku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('vmName'), '_OS')]",
+            "osType": "[parameters('osType')]",
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          },
+          "dataDisks": [
+            {
+              "name": "[concat(parameters('vmName'), '_Data')]",
+              "diskSizeGB": "1023",
+              "lun": 0,
+              "createOption": "Empty"
+            }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('VmNicName'))]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

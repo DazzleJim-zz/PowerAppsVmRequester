@@ -1,0 +1,48 @@
+{
+    "inputs": {
+        "method": "POST",
+        "uri": "https://vsrm.dev.azure.com/djohnsmsft/PowerAppsDemo/_apis/release/releases?api-version=5.1",
+        "body": {
+            "definitionId": 1,
+            "description": "This release has been triggered by Microsoft Flow.",
+            "artifacts": [],
+            "isDraft": false,
+            "reason": "none",
+            "manualEnvironments": null,
+            "variables": {
+                "imageOffer": {
+                    "value": "@{triggerBody()?['crcfe_imageoffer']}"
+                },
+                "imagePublisher": {
+                    "value": "@{triggerBody()?['crcfe_imagepublisher']}"
+                },
+                "imageSku": {
+                    "value": "@{triggerBody()?['crcfe_imagesku']}"
+                },
+                "osType": {
+                    "value": "@{triggerBody()?['crcfe_ostype']}"
+                },
+                "tagCostCenter": {
+                    "value": "@{triggerBody()?['crcfe_tagcostcenter']}"
+                },
+                "tagOwner": {
+                    "value": "@{triggerBody()?['crcfe_tagowner']}"
+                },
+                "vmName": {
+                    "value": "@{triggerBody()?['crcfe_vmname']}-@{rand(1000,9999)}"
+                },
+                "vmSize": {
+                    "value": "@{triggerBody()?['crcfe_vmsize']}"
+                },
+                "resourceGroup": {
+                    "value": "PowerApps-VM-@{rand(1000,9999)}"
+                }
+            }
+        },
+        "authentication": {
+            "type": "Basic",
+            "username": "<PAT name>",
+            "password": "<PAT password>"
+        }
+    }
+}
