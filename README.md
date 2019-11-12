@@ -1,6 +1,6 @@
 # Power Apps - Virtual Machine Requester
 ![Header]
-## Power Apps  |  Flow  |  Pipelines  |  Azure
+
 This is a demo to showcase a number of Microsoft cloud technologies working together to provide a self-service mobile app which automates teh provisioning of Azure resources. It utilizes Power Apps, Flow (or Azure Logic Apps), Azure DevOps and Azure. The scenario is based on an Azure Developer environment where individuals can request a Virtual Machine to be provisioned into their shared Dev environment.
 
 ![Screenshot]
